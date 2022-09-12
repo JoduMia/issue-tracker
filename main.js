@@ -35,11 +35,12 @@ const closeIssue = id => {
 }
 
 const deleteIssue = id => {
-  console.log('clicke');
   const issues = JSON.parse(localStorage.getItem('issues'));
   const remainingIssues = issues.filter(issue => issue.id !== id );
-  console.log(remainingIssues);
   localStorage.setItem('issues', JSON.stringify(remainingIssues));
+  if(remainingIssues.length===0){
+    localStorage.removeItem('issues');
+  }
   fetchIssues();
 }
 
@@ -49,7 +50,7 @@ const fetchIssues = (checker) => {
   const warning = document.getElementById('warning');
   warning.innerHTML = '';
   issuesList.innerHTML = '';
-  if(issues && checker){
+  if(checker){
     warning.innerHTML = `<h5 class='text-danger'>* Fill all the field</h5>`
   }
   if(issues){
